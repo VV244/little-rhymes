@@ -108,11 +108,13 @@ class WorldLibraryTests(TestCase):
         self.assertEqual(r.status_code,302)
         self.client.force_login(self.staff)
         self.assertEqual(self.client.get('/admin/library/importcandidate/').status_code,403)
-    def test_scheduled_endpoint_is_not_public(self):
+    @patch('library.sources.read_json',side_effect=AssertionError('Tests must not call external key infrastructure'))
+    def test_scheduled_endpoint_is_not_public(self,external):
         csrf_client=Client(enforce_csrf_checks=True)
         self.assertEqual(csrf_client.get('/api/editorial/sync/').status_code,405)
         self.assertEqual(csrf_client.post('/api/editorial/sync/').status_code,401)
         self.assertEqual(csrf_client.post('/api/editorial/sync/',HTTP_AUTHORIZATION='Bearer fake').status_code,403)
+        external.assert_not_called()
     @patch('library.views.verify_workflow_token',return_value={'run_id':'123','run_attempt':'1'})
     @patch('library.sources.sync_work')
     def test_verified_job_replay_blocked_and_zero_publications(self,sync,verify):
@@ -136,6 +138,9 @@ class CuratedSeedTests(TestCase):
         self.assertEqual(Poem.objects.filter(source_verified=True).count(),17)
         self.assertTrue(Poem.objects.filter(poem_text__contains='அகர').exists())
         self.assertTrue(Poem.objects.filter(poem_text__contains='さくら').exists())
+        for record in [*Author.objects.all(),*ContentProvider.objects.all(),*SourceWork.objects.all()]:
+            record.full_clean()
+        self.assertTrue(any(len(a.reference_url)>200 for a in Author.objects.all()))
         for poem in Poem.objects.filter(source_verified=True):
             poem.full_clean()
         from library.audio import builtin_recording

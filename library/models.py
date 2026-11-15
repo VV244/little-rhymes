@@ -17,7 +17,7 @@ class Author(models.Model):
     name = models.CharField(max_length=160, unique=True)
     country = models.ForeignKey(Country, on_delete=models.SET_NULL, null=True, blank=True)
     biography = models.TextField(blank=True, help_text='Verified facts only. Include a reference URL.')
-    reference_url = models.URLField(blank=True)
+    reference_url = models.URLField(max_length=1000, blank=True)
     death_year = models.PositiveSmallIntegerField(null=True, blank=True)
     class Meta: ordering = ['name']
     def __str__(self): return self.name
@@ -26,7 +26,7 @@ class ContentProvider(models.Model):
     name = models.CharField(max_length=120, unique=True)
     kind = models.CharField(max_length=20, choices=[('wikisource', 'Wikisource API'), ('reference', 'Manual reference only')], default='wikisource')
     language_code = models.CharField(max_length=8, blank=True, help_text='Allowlisted Wikisource subdomain, e.g. en.')
-    terms_url = models.URLField()
+    terms_url = models.URLField(max_length=1000)
     is_active = models.BooleanField(default=False, help_text='Enable only after reviewing terms and selected works.')
     last_success_at = models.DateTimeField(null=True, blank=True, editable=False)
     def __str__(self): return self.name

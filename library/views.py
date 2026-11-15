@@ -65,14 +65,16 @@ def scheduled_sync(request):
 def verify_workflow_token(token):
     import jwt
     from .sources import read_json
+    header=jwt.get_unverified_header(token)
+    if header.get('alg')!='RS256' or not isinstance(header.get('kid'),str) or not header['kid'] or len(header['kid'])>200:
+        raise ValueError('Invalid signing header.')
     keys=cache.get('github-oidc-keys')
     if keys is None:
         keys=read_json('https://token.actions.githubusercontent.com/.well-known/jwks',200000)
         cache.set('github-oidc-keys',keys,3600)
-    header=jwt.get_unverified_header(token)
     key=next((k for k in keys['keys'] if k.get('kid')==header.get('kid')),None)
     if key is None:
-        cache.delete('github-oidc-keys')
+        if cache.add('github-oidc-key-refresh-cooldown',True,60):cache.delete('github-oidc-keys')
         raise ValueError('Unknown key; retry after key refresh.')
     claims=jwt.decode(token,jwt.PyJWK(key).key,algorithms=['RS256'],audience='little-rhymes-content-sync',issuer='https://token.actions.githubusercontent.com',options={'require':['exp','iat','nbf','repository','repository_id','ref','workflow_ref','event_name','run_id','run_attempt']},leeway=10)
     repo=settings.CONTENT_SYNC_REPOSITORY
