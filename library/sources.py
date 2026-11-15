@@ -87,7 +87,7 @@ def approve_candidate(candidate, reviewer):
     from poems.models import Poem
     if not reviewer.is_staff or not reviewer.has_perm('library.change_importcandidate') or not reviewer.has_perm('poems.add_poem'):
         raise PermissionError('Editorial and poem permissions are required.')
-    candidate=ImportCandidate.objects.select_for_update().select_related('work__author','work__language').get(pk=candidate.pk)
+    candidate=ImportCandidate.objects.select_for_update(of=('self','work')).select_related('work__author','work__language').get(pk=candidate.pk)
     if candidate.status != 'pending': raise ValidationError('This candidate has already been reviewed.')
     work=candidate.work
     validate_source(work)
