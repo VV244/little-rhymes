@@ -122,6 +122,18 @@ class WorldLibraryTests(TestCase):
         r=self.client.post('/api/editorial/sync/',HTTP_AUTHORIZATION='Bearer signed')
         self.assertEqual(r.status_code,200);self.assertEqual(r.json()['published'],0)
         self.assertEqual(self.client.post('/api/editorial/sync/',HTTP_AUTHORIZATION='Bearer signed').status_code,409)
+    @patch('library.views.verify_workflow_token',return_value={'run_id':'next-source-test','run_attempt':'1'})
+    @patch('library.sources.sync_work')
+    @patch('time.sleep')
+    def test_scheduler_checks_unseen_sources_before_older_checked_sources(self,pause,sync,verify):
+        SourceWork.objects.filter(pk=self.work.pk).update(last_checked_at=timezone.now())
+        unseen=SourceWork.objects.create(provider=self.provider,title='Unchecked',page_title='Unchecked',source_url='https://en.wikisource.org/wiki/Unchecked',language=self.en,baseline_text='Original test text.',rights_notes='Test rights',approved_for_sync=True)
+        sync.return_value=SyncRun(succeeded=True,message='Checked')
+        r=self.client.post('/api/editorial/sync/',HTTP_AUTHORIZATION='Bearer signed')
+        self.assertEqual(r.status_code,200)
+        self.assertEqual(sync.call_args_list[0].args[0].pk,unseen.pk)
+        self.assertEqual(sync.call_count,2)
+        pause.assert_called_once_with(2.1)
     def test_feature_schedule_constraint(self):
         now=timezone.now()
         with self.assertRaises(IntegrityError),transaction.atomic():FeaturedSchedule.objects.create(poem=self.poem,starts_at=now,ends_at=now-timedelta(minutes=1))

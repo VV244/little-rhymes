@@ -12,7 +12,7 @@ Django 5.2, PostgreSQL, Redis, S3-compatible media, Django authentication, Axes,
 CSRF, contact protection, permanent poem URLs, SEO and the existing admin remain.
 Migrations only add tables/fields/constraints; they do not remove existing poems,
 media, users, contact messages or URLs. No passwords are changed by deployment.
-The existing environment variables remain valid. No new paid resource is required.
+PostgreSQL server-side cursors are disabled for transaction-pooler compatibility, including language filters and sitemap iteration. The existing environment variables remain valid. No new paid resource is required.
 
 ## Local setup
 
@@ -120,7 +120,7 @@ unpublished. Change a baseline only after rechecking source text and rights.
 
 The GitHub workflow `.github/workflows/content-sync.yml` schedules bounded checks
 at 03:37 UTC (09:07 IST) each day and allows manual “Run workflow”. It checks the
-two least-recently checked approved works; the catalog rotates over subsequent
+two least-recently checked approved works (unchecked works first, with explicit PostgreSQL NULL ordering); the catalog rotates over subsequent
 runs. GitHub may delay scheduled jobs. To check the entire catalog now, use the
 management command above. Failed checks need review in Sync runs.
 

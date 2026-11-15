@@ -20,7 +20,9 @@ class SourceAdmin(admin.ModelAdmin):
     readonly_fields=['last_checked_at']; list_select_related=['provider','language']; actions=['check_sources']
     @admin.action(description='Check selected sources (up to 2; creates review candidates only)',permissions=['change'])
     def check_sources(self,request,queryset):
-        for work in queryset.select_related('provider')[:2]:
+        import time
+        for index,work in enumerate(queryset.select_related('provider')[:2]):
+            if index:time.sleep(2.1)
             run=sync_work(work)
             self.message_user(request,f'{work}: {run.message}',messages.SUCCESS if run.succeeded else messages.WARNING)
 @admin.register(ImportCandidate)

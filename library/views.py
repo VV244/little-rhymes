@@ -1,6 +1,7 @@
 from datetime import date
 from django.conf import settings
 from django.core.cache import cache
+from django.db.models import F
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.utils import timezone
@@ -57,8 +58,13 @@ def scheduled_sync(request):
         cache.delete(identity)
         return JsonResponse({'error':'A synchronization is already running'},status=429)
     try:
-        works=SourceWork.objects.filter(approved_for_sync=True,provider__is_active=True).select_related('provider').order_by('last_checked_at','pk')[:2]
-        results=[{'work':w.title, 'ok':(run:=sync_work(w)).succeeded,'message':run.message} for w in works]
+        works=SourceWork.objects.filter(approved_for_sync=True,provider__is_active=True).select_related('provider').order_by(F('last_checked_at').asc(nulls_first=True),'pk')[:2]
+        import time
+        results=[]
+        for index,work in enumerate(works):
+            if index: time.sleep(2.1)
+            run=sync_work(work)
+            results.append({'work':work.title,'ok':run.succeeded,'message':run.message})
     finally: cache.delete('editorial-sync-lock')
     return JsonResponse({'results':results,'published':0})
 

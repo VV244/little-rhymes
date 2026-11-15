@@ -77,7 +77,7 @@ class ProductionConfigurationTests(TestCase):
                    AWS_STORAGE_BUCKET_NAME='not-a-real-bucket',
                    MEDIA_ORIGINS='https://not-a-real-bucket.s3.ap-south-1.amazonaws.com')
         env.update(changes)
-        return subprocess.run([sys.executable, '-c', 'import config.settings'], cwd=settings.BASE_DIR,
+        return subprocess.run([sys.executable, '-c', 'import config.settings as s; assert s.DATABASES["default"]["DISABLE_SERVER_SIDE_CURSORS"] is True'], cwd=settings.BASE_DIR,
                               env=env, capture_output=True, text=True, timeout=10)
 
     def test_valid_production_configuration_imports(self):

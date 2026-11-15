@@ -1,4 +1,5 @@
 from django.core.management.base import BaseCommand
+from django.db.models import F
 from library.models import SourceWork
 from library.sources import sync_work
 import time
@@ -8,7 +9,7 @@ class Command(BaseCommand):
     def add_arguments(self,parser):
         parser.add_argument('--limit',type=int,default=0,help='Maximum works; 0 checks the full approved catalog.')
     def handle(self,*args,**kwargs):
-        works=SourceWork.objects.filter(approved_for_sync=True,provider__is_active=True).select_related('provider').order_by('last_checked_at','pk')
+        works=SourceWork.objects.filter(approved_for_sync=True,provider__is_active=True).select_related('provider').order_by(F('last_checked_at').asc(nulls_first=True),'pk')
         if kwargs['limit']>0:works=works[:kwargs['limit']]
         for work in works:
             run=sync_work(work)

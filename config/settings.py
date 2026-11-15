@@ -89,6 +89,10 @@ DATABASES = {'default': dj_database_url.parse(
     DATABASE_URL or f'sqlite:///{BASE_DIR / "db.sqlite3"}',
     conn_max_age=600 if DATABASE_URL else 0, conn_health_checks=True,
 )}
+# Transaction poolers cannot preserve PostgreSQL named cursors between fetches.
+# ModelChoiceField iteration and sitemap/library lists must use client-side cursors.
+if DATABASE_URL:
+    DATABASES['default']['DISABLE_SERVER_SIDE_CURSORS'] = True
 if DATABASE_URL and env_bool('DATABASE_SSL_REQUIRE', not DEBUG):
     DATABASES['default']['OPTIONS'] = {'sslmode': 'require'}
 
