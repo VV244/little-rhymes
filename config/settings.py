@@ -54,7 +54,7 @@ INSTALLED_APPS = [
     'core.admin_apps.StudioAdminConfig', 'django.contrib.auth', 'django.contrib.contenttypes',
     'django.contrib.sessions', 'django.contrib.messages', 'django.contrib.staticfiles',
     'django.contrib.sitemaps', 'rest_framework', 'storages', 'axes',
-    'core.apps.CoreConfig', 'poems.apps.PoemsConfig', 'contact.apps.ContactConfig',
+    'core.apps.CoreConfig', 'poems.apps.PoemsConfig', 'contact.apps.ContactConfig', 'library.apps.LibraryConfig',
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -190,3 +190,6 @@ LOGGING = {
     'root': {'handlers': ['console'], 'level': os.getenv('LOG_LEVEL', 'INFO')},
     'loggers': {'django.server': {'handlers': ['console'], 'level': 'WARNING', 'propagate': False}},
 }
+
+CONTENT_SYNC_REPOSITORY = os.getenv("CONTENT_SYNC_REPOSITORY", "VV244/little-rhymes")
+CONTENT_SYNC_REPOSITORY_ID = "1458484371"

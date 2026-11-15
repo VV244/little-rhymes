@@ -58,3 +58,21 @@ The demonstration contains no copied modern nursery rhymes and no sample
 YouTube videos whose child suitability or permissions could not be verified.
 Administrators may add properly licensed media. External providers retain
 their rights and privacy terms.
+
+## Three.js 0.187.0 and GSAP 3.15.1
+
+Three.js is MIT licensed; full notice: `static/vendor/licenses/three-LICENSE.txt`.
+GSAP is distributed under the GSAP Standard License (not MIT); see the packaged
+notice and https://gsap.com/standard-license/ . Uses here animate original
+scene geometry; no commercial character, model, texture or recording is bundled.
+TypeScript and esbuild are build tools and are not required on the Python server.
+
+## Classic synthetic narrations
+
+The five files in `static/audio/classics/` were generated specifically for this
+project from the public-domain text selections in `library/data/classics.json`,
+using Flite CMU US SLT through FFmpeg. The same Flite/voice license notices
+identified above apply. No existing musical performance was copied.
+Measured line start times are in `library/data/audio_manifest.json`; these are
+recording line timings, not invented word alignment. A SHA-256 check hides a
+bundled recording when an editor changes its text.

@@ -107,43 +107,4 @@
     holder.replaceWith(frame); frame.focus();
   });
 
-  const speech = document.querySelector('[data-speech-lang]');
-  if (speech) {
-    const play = speech.querySelector('.speech-play');
-    const extra = speech.querySelector('.speech-extra');
-    const feedback = speech.querySelector('.speech-status');
-    if (!('speechSynthesis' in window)) {
-      play.hidden = true; feedback.textContent = 'Read-aloud is not supported in this browser. Try reading together with a grown-up.'; return;
-    }
-    const synth = window.speechSynthesis;
-    let voice, utterance;
-    const findVoice = () => {
-      const language = speech.dataset.speechLang.toLowerCase();
-      const base = language.split('-')[0];
-      voice = synth.getVoices().find(v => v.lang.toLowerCase() === language) || synth.getVoices().find(v => v.lang.toLowerCase().split('-')[0] === base);
-      play.disabled = !voice;
-      play.hidden = !voice;
-      feedback.textContent = voice ? 'Uses a voice on your device. Some voices may connect to the device provider.' : 'No matching language voice is installed on this device. Read together, or ask a grown-up to add a language voice.';
-    };
-    findVoice(); synth.addEventListener('voiceschanged', findVoice);
-    play.addEventListener('click', () => {
-      if (!voice) return;
-      synth.cancel();
-      utterance = new SpeechSynthesisUtterance(document.querySelector('#poem-text').innerText);
-      utterance.lang = speech.dataset.speechLang; utterance.voice = voice; utterance.rate = 0.82;
-      utterance.volume = Number(speech.querySelector('.speech-volume').value);
-      utterance.onstart = () => { feedback.textContent = 'Reading aloud…'; extra.hidden = false; play.textContent = 'Replay ↻'; speech.querySelector('.speech-pause').textContent = 'Pause'; };
-      utterance.onend = () => { feedback.textContent = 'All done! Shall we read it again?'; extra.hidden = true; };
-      utterance.onerror = event => { if (event.error !== 'canceled' && event.error !== 'interrupted') feedback.textContent = 'The device voice could not read this poem. Try again or read together.'; extra.hidden = true; };
-      synth.speak(utterance);
-    });
-    speech.querySelector('.speech-pause').addEventListener('click', event => {
-      if (synth.paused) { synth.resume(); event.target.textContent = 'Pause'; feedback.textContent = 'Reading aloud…'; }
-      else { synth.pause(); event.target.textContent = 'Resume'; feedback.textContent = 'Reading paused.'; }
-    });
-    speech.querySelector('.speech-stop').addEventListener('click', () => { synth.cancel(); extra.hidden = true; feedback.textContent = 'Reading stopped. Press read aloud to start again.'; play.textContent = 'Read aloud ▷'; });
-    speech.querySelector('.speech-volume').addEventListener('input', event => { if (utterance) utterance.volume = Number(event.target.value); });
-    document.querySelector('audio')?.addEventListener('play', () => { synth.cancel(); extra.hidden = true; });
-    window.addEventListener('pagehide', () => synth.cancel());
-  }
 })();

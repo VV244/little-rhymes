@@ -1,0 +1,41 @@
+name: Check approved poetry sources
+on:
+  schedule:
+    - cron: '37 3 * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+  id-token: write
+concurrency:
+  group: reviewed-poetry-source-sync
+  cancel-in-progress: false
+jobs:
+  check-sources:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check approved selections using short-lived workflow identity
+        env:
+          SITE_URL: https://little-rhymes-1.onrender.com
+        run: |
+          python - <<'PY'
+          import json, os, urllib.request, urllib.parse, urllib.error
+          audience = urllib.parse.quote('little-rhymes-content-sync')
+          token_url = os.environ['ACTIONS_ID_TOKEN_REQUEST_URL'] + '&audience=' + audience
+          request = urllib.request.Request(token_url, headers={
+              'Authorization': 'Bearer ' + os.environ['ACTIONS_ID_TOKEN_REQUEST_TOKEN']})
+          with urllib.request.urlopen(request, timeout=20) as response:
+              identity = json.load(response)['value']
+          # Never print the token or provider credentials. No visitor data is sent.
+          request = urllib.request.Request(os.environ['SITE_URL'] + '/api/editorial/sync/',
+              data=b'{}', method='POST', headers={
+                  'Authorization': 'Bearer ' + identity, 'Content-Type': 'application/json'})
+          try:
+              with urllib.request.urlopen(request, timeout=110) as response:
+                  result = json.load(response)
+          except urllib.error.HTTPError as error:
+              raise SystemExit('Editorial sync endpoint returned HTTP ' + str(error.code))
+          print(json.dumps(result, ensure_ascii=False))
+          if not result.get('results') or any(not item['ok'] for item in result['results']):
+              raise SystemExit('One or more sources need editorial attention; published poems were unchanged.')
+          PY

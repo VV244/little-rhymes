@@ -103,3 +103,11 @@ Use [docs/OPERATIONS.md](docs/OPERATIONS.md) to maintain staff access, content r
 Application code: MIT. Original demo verses and vector artwork: CC0 1.0. See [LICENSE](LICENSE), [CONTENT_LICENSE.md](CONTENT_LICENSE.md) and [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). Third-party font and speech notices are bundled; uploaded content keeps its own license.
 
 Dependencies are pinned to the versions used for this handoff; periodically install supported security patches and rerun the tests. Framework and deployment references: [Django supported releases](https://www.djangoproject.com/download/), [Django production checklist](https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/), [Render Django deployment](https://render.com/docs/deploy-django), [Render Blueprints](https://render.com/docs/blueprint-spec), [Render plans](https://render.com/docs/compute-plans), [django-storages S3](https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html), [WhiteNoise](https://whitenoise.readthedocs.io/en/stable/django.html).
+
+## Little Rhymes 3D storybook upgrade
+
+The application remains Django/PostgreSQL with its existing admin and URLs.
+The new Three.js/GSAP world is progressively loaded from self-hosted TypeScript
+bundles. Reading, navigation, favourites and the library work without WebGL.
+See [the upgrade and operations guide](docs/STORYBOOK_UPGRADE.md) for the content
+review workflow, source checks, optional cloud narration and deployment steps.

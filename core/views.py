@@ -8,10 +8,19 @@ from .models import ContentPage, FAQ
 
 @require_safe
 def home(request):
+    from library.views import daily_poem
+    from library.models import FeaturedSchedule
+    from django.utils import timezone
     published = Poem.objects.published().with_relations()
+    scheduled = list(FeaturedSchedule.objects.filter(starts_at__lte=timezone.now(), ends_at__gt=timezone.now()).values_list('poem_id',flat=True))
+    from django.db.models import Case, When, IntegerField
+    featured = published.filter(pk__in=scheduled).order_by(Case(*[When(pk=pk,then=index) for index,pk in enumerate(scheduled)],default=999,output_field=IntegerField()),'pk')
+    if not featured.exists(): featured=published.filter(is_featured=True)
     return render(request, 'home.html', {
         'popular_poems': published.order_by('-home_priority', '-published_at', '-id')[:3],
-        'featured_poems': published.filter(is_featured=True)[:3],
+        'featured_poems': featured[:3],
+        'classic_poems': published.filter(source_verified=True).order_by('-home_priority','id')[:3],
+        'daily_poem': daily_poem(), 'today': timezone.localdate(),
         'new_poems': published[:3],
         'faqs': FAQ.objects.filter(is_active=True)[:4],
         'title': 'Little Rhymes – Learn, Sing & Grow',

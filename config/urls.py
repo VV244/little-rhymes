@@ -10,6 +10,7 @@ urlpatterns = [
     path('i18n/', include('django.conf.urls.i18n')),
     path('', include('core.urls')),
     path('', include('poems.urls')),
+    path('', include('library.urls')),
     path('', include('contact.urls')),
     path('sitemap.xml', sitemap, {'sitemaps': {'poems': PoemSitemap, 'pages': StaticSitemap, 'browse': TaxonomySitemap}}, name='sitemap'),
 ]

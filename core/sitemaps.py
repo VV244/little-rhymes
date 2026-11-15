@@ -27,7 +27,7 @@ class StaticSitemap(OriginSitemap):
     priority = 0.6
 
     def items(self):
-        return ['home', 'poems:list', 'poems:classes', 'poems:languages', 'poems:categories', 'about', 'resources', 'faq', 'privacy', 'terms', 'copyright']
+        return ['home', 'poems:list', 'poems:classes', 'poems:languages', 'poems:categories', 'about', 'resources', 'faq', 'privacy', 'terms', 'copyright', 'library:activities', 'library:grownups', 'library:sources']
 
     def location(self, item):
         return reverse(item)

@@ -56,7 +56,8 @@ class PublicPageTests(LibraryFixture):
     def test_home(self):
         response = self.client.get('/')
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Discover the Magical World of Poems!')
+        self.assertContains(response, 'A little rhyme.')
+        self.assertContains(response, 'data-world')
         self.assertContains(response, self.sun.title)
         self.assertNotContains(response, 'Secret draft')
         self.assertNotContains(response, 'Future poem')
@@ -182,7 +183,8 @@ class PublicPageTests(LibraryFixture):
         with CaptureQueriesContext(connection) as queries:
             response = self.client.get('/poems/')
             self.assertEqual(response.status_code, 200)
-        self.assertLessEqual(len(queries), 7, '\n'.join(q['sql'] for q in queries))
+        # One extra fixed query supplies the culture filter; card counts stay constant.
+        self.assertLessEqual(len(queries), 8, '\n'.join(q['sql'] for q in queries))
 
     def test_interface_translation_independent_from_poem_language(self):
         self.client.post('/i18n/setlang/', {'language': 'hi', 'next': self.sun.get_absolute_url()})

@@ -46,10 +46,19 @@ def directory(request, kind):
     return render(request, 'poems/directory.html', {'entries': entries, 'kind': kind, 'title': title, 'description': description})
 
 def detail_context(poem):
+    from library.models import Translation
+    equivalences = Translation.objects.filter(verified=True).filter(Q(original=poem)|Q(translated_poem=poem)).values_list('original_id','translated_poem_id')
+    equivalent_ids = {pk for pair in equivalences for pk in pair}
+    equivalents = Poem.objects.published().filter(pk__in=equivalent_ids).select_related('language')
+    display_lines=[]
+    line_index=0
+    for line in poem.poem_text.splitlines():
+        display_lines.append({'blank':not line.strip(),'text':line,'index':line_index})
+        if line.strip(): line_index+=1
     visible = Poem.objects.published()
     related = visible.filter(language=poem.language).exclude(pk=poem.pk).with_relations()[:3]
     return {
-        'poem': poem, 'related_poems': related,
+        'poem': poem, 'related_poems': related, 'equivalent_poems': equivalents, 'poem_lines': [line for line in poem.poem_text.splitlines() if line.strip()], 'poem_display_lines': display_lines,
         'previous_poem': visible.filter(pk__lt=poem.pk).order_by('-pk').only('title', 'slug').first(),
         'next_poem': visible.filter(pk__gt=poem.pk).order_by('pk').only('title', 'slug').first(),
         'title': poem.seo_title, 'description': poem.seo_description,

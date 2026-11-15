@@ -1,0 +1,7 @@
+{% load static %}
+<div class="storybook-world world-{{ world_theme|default:'garden' }}" data-world data-theme="{{ world_theme|default:'garden' }}" data-state="loading">
+  <img class="world-fallback" src="{% if world_theme == 'night' %}{% static 'images/night.svg' %}{% elif world_theme == 'ocean' or world_theme == 'rain' %}{% static 'images/rain.svg' %}{% else %}{% static 'images/hero.svg' %}{% endif %}" width="620" height="520" alt="{% if world_theme == 'night' %}A friendly moon and twinkling stars in a quiet night sky.{% elif world_theme == 'ocean' or world_theme == 'rain' %}A gentle illustration of water and clouds.{% else %}Pip the bunny discovers an open storybook beneath a rainbow in a flower-filled garden.{% endif %}">
+  <canvas hidden aria-label="Animated storybook island with Pip the bunny, an opening book, a rainbow and a tiny waterfall. Use the links beside this scene to explore."></canvas>
+  <span class="world-caption" aria-hidden="true">A LITTLE WORLD. A BIG IMAGINATION.</span>
+  <p class="world-message" role="status">Meet Pip, your little reading companion.</p>
+</div>

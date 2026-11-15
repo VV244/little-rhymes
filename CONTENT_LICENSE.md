@@ -18,3 +18,13 @@ CC0 here does not relicense Bootstrap, fonts, speech-engine resources, uploaded
 media, externally hosted videos, third-party trademarks, or future poems added
 by an operator. Those remain governed by their own rights and licenses. Record
 permissions for every publication in the Django Admin rights fields.
+
+# World poetry collection
+
+The curated classic text selections are separately documented in
+`library/data/classics.json` and in each published poem’s source/rights records.
+Their underlying public-domain status does not transfer a publisher’s rights in
+modern recordings, arrangements, translations, artwork or editorial material.
+These assets are not covered by a blanket CC0 declaration for the demo verses.
+The five new synthetic recordings are original outputs; Flite engine/voice
+notices remain applicable. See `THIRD_PARTY_NOTICES.md`.

@@ -4,7 +4,17 @@ from .models import Poem
 from .forms import PoemFilterForm
 from .services import filter_poems
 
+class SourceSerializer(serializers.Serializer):
+    title=serializers.CharField()
+    source_url=serializers.URLField()
+    author=serializers.CharField(source='author.name',default='Traditional; author unknown')
+    country=serializers.CharField(source='country.name',default='')
+    license_code=serializers.CharField()
+    rights_notes=serializers.CharField()
+    revision_id=serializers.CharField()
+
 class PoemSerializer(serializers.ModelSerializer):
+    source=SourceSerializer(source='source_work',read_only=True)
     language = serializers.CharField(source='language.native_name')
     language_code = serializers.CharField(source='language.code')
     text_direction = serializers.CharField(source='language.text_direction')
@@ -14,7 +24,7 @@ class PoemSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Poem
-        fields = ['id', 'title', 'slug', 'url', 'language', 'language_code', 'text_direction', 'classes', 'categories', 'author', 'poem_text', 'short_description', 'thumbnail', 'illustration', 'audio_file', 'video_url', 'rights_statement']
+        fields = ['id', 'title', 'slug', 'url', 'language', 'language_code', 'text_direction', 'classes', 'categories', 'author', 'poem_text', 'short_description', 'thumbnail', 'illustration', 'audio_file', 'video_url', 'rights_statement', 'content_kind', 'source_verified', 'theme', 'age_min', 'age_max', 'is_excerpt', 'recording_url', 'source']
 
 class PoemListAPI(generics.ListAPIView):
     serializer_class = PoemSerializer

@@ -1,0 +1,270 @@
+{
+  "twinkle-twinkle-little-star": {
+    "sha256": "60f9bc76e06a131b5faa000960a7ac8a0d59617cee724634e9aa0579610c5093",
+    "cues": [
+      {
+        "start": 0,
+        "line": 0
+      },
+      {
+        "start": 2.977,
+        "line": 1
+      },
+      {
+        "start": 5.322,
+        "line": 2
+      },
+      {
+        "start": 7.504,
+        "line": 3
+      },
+      {
+        "start": 9.92,
+        "line": 4
+      },
+      {
+        "start": 12.405,
+        "line": 5
+      },
+      {
+        "start": 14.764,
+        "line": 6
+      },
+      {
+        "start": 17.04,
+        "line": 7
+      },
+      {
+        "start": 19.694,
+        "line": 8
+      },
+      {
+        "start": 22.433,
+        "line": 9
+      },
+      {
+        "start": 24.988,
+        "line": 10
+      },
+      {
+        "start": 27.164,
+        "line": 11
+      },
+      {
+        "start": 29.608,
+        "line": 12
+      },
+      {
+        "start": 32.424,
+        "line": 13
+      },
+      {
+        "start": 34.753,
+        "line": 14
+      },
+      {
+        "start": 37.043,
+        "line": 15
+      }
+    ],
+    "seconds": 40.02,
+    "voice": "Flite CMU US SLT (synthetic)",
+    "rights": "Original synthesized narration generated for Little Rhymes; Flite and voice license notices in THIRD_PARTY_NOTICES.md. Public-domain text; no third-party performance copied."
+  },
+  "humpty-dumpty": {
+    "sha256": "1ad380c618d6de4149f3a573af85d6ba6649b002f98b909b57263a742411eae0",
+    "cues": [
+      {
+        "start": 0,
+        "line": 0
+      },
+      {
+        "start": 2.628,
+        "line": 1
+      },
+      {
+        "start": 5.18,
+        "line": 2
+      },
+      {
+        "start": 8.368,
+        "line": 3
+      }
+    ],
+    "seconds": 11.732,
+    "voice": "Flite CMU US SLT (synthetic)",
+    "rights": "Original synthesized narration generated for Little Rhymes; Flite and voice license notices in THIRD_PARTY_NOTICES.md. Public-domain text; no third-party performance copied."
+  },
+  "baa-baa-black-sheep": {
+    "sha256": "f40f73116190682fc431d01a6099fff3a4bbb96379282d7ff79466596f8af9d5",
+    "cues": [
+      {
+        "start": 0,
+        "line": 0
+      },
+      {
+        "start": 2.463,
+        "line": 1
+      },
+      {
+        "start": 4.379,
+        "line": 2
+      },
+      {
+        "start": 6.644,
+        "line": 3
+      },
+      {
+        "start": 8.511,
+        "line": 4
+      },
+      {
+        "start": 10.692,
+        "line": 5
+      },
+      {
+        "start": 12.678,
+        "line": 6
+      },
+      {
+        "start": 14.981,
+        "line": 7
+      }
+    ],
+    "seconds": 17.219,
+    "voice": "Flite CMU US SLT (synthetic)",
+    "rights": "Original synthesized narration generated for Little Rhymes; Flite and voice license notices in THIRD_PARTY_NOTICES.md. Public-domain text; no third-party performance copied."
+  },
+  "mary-had-a-little-lamb": {
+    "sha256": "3e23075783ec65c5f7bee26d5ca22ecd65d18ed62ae9bfd89ecfafe696199b29",
+    "cues": [
+      {
+        "start": 0,
+        "line": 0
+      },
+      {
+        "start": 2.091,
+        "line": 1
+      },
+      {
+        "start": 4.9,
+        "line": 2
+      },
+      {
+        "start": 7.427,
+        "line": 3
+      },
+      {
+        "start": 9.807,
+        "line": 4
+      },
+      {
+        "start": 12.711,
+        "line": 5
+      },
+      {
+        "start": 15.085,
+        "line": 6
+      },
+      {
+        "start": 18.034,
+        "line": 7
+      },
+      {
+        "start": 20.405,
+        "line": 8
+      },
+      {
+        "start": 23.127,
+        "line": 9
+      },
+      {
+        "start": 25.426,
+        "line": 10
+      },
+      {
+        "start": 27.874,
+        "line": 11
+      },
+      {
+        "start": 29.933,
+        "line": 12
+      },
+      {
+        "start": 33.064,
+        "line": 13
+      },
+      {
+        "start": 35.32,
+        "line": 14
+      },
+      {
+        "start": 37.897,
+        "line": 15
+      },
+      {
+        "start": 40.589,
+        "line": 16
+      },
+      {
+        "start": 43.314,
+        "line": 17
+      },
+      {
+        "start": 45.685,
+        "line": 18
+      },
+      {
+        "start": 48.657,
+        "line": 19
+      },
+      {
+        "start": 50.801,
+        "line": 20
+      },
+      {
+        "start": 53.338,
+        "line": 21
+      },
+      {
+        "start": 55.899,
+        "line": 22
+      },
+      {
+        "start": 58.656,
+        "line": 23
+      }
+    ],
+    "seconds": 61.167,
+    "voice": "Flite CMU US SLT (synthetic)",
+    "rights": "Original synthesized narration generated for Little Rhymes; Flite and voice license notices in THIRD_PARTY_NOTICES.md. Public-domain text; no third-party performance copied."
+  },
+  "hickory-dickory-dock": {
+    "sha256": "6799d1c918b5428148f1baa559396d250a099fefeeceb7a199fcd4231be8703f",
+    "cues": [
+      {
+        "start": 0,
+        "line": 0
+      },
+      {
+        "start": 2.296,
+        "line": 1
+      },
+      {
+        "start": 4.686,
+        "line": 2
+      },
+      {
+        "start": 6.879,
+        "line": 3
+      },
+      {
+        "start": 9.003,
+        "line": 4
+      }
+    ],
+    "seconds": 11.299,
+    "voice": "Flite CMU US SLT (synthetic)",
+    "rights": "Original synthesized narration generated for Little Rhymes; Flite and voice license notices in THIRD_PARTY_NOTICES.md. Public-domain text; no third-party performance copied."
+  }
+}

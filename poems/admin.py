@@ -30,7 +30,7 @@ class CategoryAdmin(admin.ModelAdmin):
 @admin.register(Poem)
 class PoemAdmin(admin.ModelAdmin):
     list_display = ['title', 'language', 'status', 'is_featured', 'published_at', 'preview_link']
-    list_filter = ['status', 'language', 'classes', 'categories', 'is_featured']
+    list_filter = ['status', 'language', 'classes', 'categories', 'is_featured', 'source_verified', 'content_kind', 'theme']
     search_fields = ['title', 'poem_text', 'author', 'keywords']
     filter_horizontal = ['classes', 'categories']
     list_select_related = ['language']
@@ -41,7 +41,8 @@ class PoemAdmin(admin.ModelAdmin):
     actions = ['publish', 'unpublish', 'feature', 'unfeature']
     fieldsets = [
         ('Poem', {'fields': ['title', 'slug', 'language', 'classes', 'categories', 'author', 'short_description', 'poem_text']}),
-        ('Illustration & media', {'fields': ['thumbnail', 'illustration', 'audio_file', 'video_url']}),
+        ('World library & provenance', {'fields': ['source_work', 'source_verified', 'content_kind', 'is_excerpt', 'age_min', 'age_max', 'theme']}),
+        ('Illustration & media', {'fields': ['thumbnail', 'illustration', 'audio_file', 'builtin_audio', 'audio_cues', 'video_url']}),
         ('Rights & publication', {'fields': ['rights_statement', 'rights_confirmed', 'status', 'published_at', 'is_featured', 'home_priority', 'preview_link']}),
         ('Search & SEO', {'fields': ['keywords', 'meta_title', 'meta_description'], 'classes': ['collapse']}),
         ('History', {'fields': ['created_at', 'updated_at'], 'classes': ['collapse']}),

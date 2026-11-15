@@ -20,13 +20,15 @@
   <link rel="stylesheet" href="{% static 'css/fonts.css' %}">
   <link rel="stylesheet" href="{% static 'vendor/bootstrap-icons.min.css' %}">
   <link rel="stylesheet" href="{% static 'css/site.css' %}">
+  <link rel="stylesheet" href="{% static 'css/magic.css' %}">
+  <script type="module" src="{% static 'dist/preferences.js' %}"></script>
   <script src="{% static 'js/site.js' %}" defer></script>
   <script type="application/ld+json" nonce="{{ csp_nonce }}">{% structured_data %}</script>
   {% block head %}{% endblock %}
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
-<div class="announcement"><span aria-hidden="true">✦</span> Little poems. Big imaginations. <span class="announcement-extra">A whole world of wonder, in your language.</span><span aria-hidden="true">✦</span></div>
+<div class="announcement"><span aria-hidden="true">✦</span> A little wonder, every day. <span class="announcement-extra">Read together. Grow together.</span><span aria-hidden="true">✦</span></div>
 <header class="site-header">
   <div class="container header-inner">
     <a class="brand" href="{% url 'home' %}" aria-label="Little Rhymes home">
@@ -37,13 +39,13 @@
     <nav id="main-nav" aria-label="Main navigation">
       <a href="{% url 'home' %}" {% if request.path == '/' %}aria-current="page"{% endif %}>{% translate 'Home' %}</a>
       <a href="{% url 'poems:list' %}" {% if request.path == '/poems/' %}aria-current="page"{% endif %}>{% translate 'Explore Poems' %}</a>
-      <a href="{% url 'poems:classes' %}">{% translate 'Classes' %}</a>
+      <a href="{% url 'library:activities' %}">Play & learn</a>
       <a href="{% url 'poems:languages' %}">{% translate 'Languages' %}</a>
-      <a href="{% url 'poems:categories' %}">{% translate 'Categories' %}</a>
-      <a href="{% url 'about' %}">{% translate 'About Us' %}</a>
-      <a href="{% url 'contact' %}">{% translate 'Contact Us' %}</a>
+
+      <a href="{% url 'library:grownups' %}">For grown-ups</a>
+
     </nav>
-    <div class="header-actions"><a href="{% url 'poems:favorites' %}" class="icon-button" aria-label="My favorites">♡</a><a href="{% url 'poems:list' %}#search" class="icon-button search-icon" aria-label="Search poems"><i class="bi bi-search" aria-hidden="true"></i></a></div>
+    <div class="header-actions"><button id="theme-toggle" type="button" class="icon-button" aria-label="Toggle dark and light appearance" aria-pressed="false">☼</button><a href="{% url 'poems:favorites' %}" class="icon-button" aria-label="My favorites">♡</a><a href="{% url 'poems:list' %}#search" class="icon-button search-icon" aria-label="Search poems"><i class="bi bi-search" aria-hidden="true"></i></a></div>
   </div>
 </header>
 {% if messages %}<div class="container messages" role="status">{% for message in messages %}<div class="notice">{{ message }}</div>{% endfor %}</div>{% endif %}
@@ -52,7 +54,7 @@
   <div class="container footer-grid">
     <div class="footer-brand"><a class="brand" href="{% url 'home' %}"><img src="{% static 'images/logo.svg' %}" width="42" height="42" alt=""><span>Little Rhymes<small>LEARN, SING & GROW</small></span></a><p>{{ site_settings.footer_description|default:'Little poems. Big imaginations. A joyful place to learn, sing and grow together.' }}</p><span class="footer-pill">Made for curious little minds <span aria-hidden="true">✿</span></span></div>
     <div><h2>Let’s explore</h2><a href="{% url 'poems:list' %}">All poems</a><a href="{% url 'poems:classes' %}">Browse by class</a><a href="{% url 'poems:languages' %}">Browse by language</a><a href="{% url 'poems:categories' %}">Browse by category</a></div>
-    <div><h2>For grown-ups</h2><a href="{% url 'resources' %}">Parents & teachers</a><a href="{% url 'about' %}">Our little story</a><a href="{% url 'faq' %}">FAQs</a><a href="{% url 'contact' %}">Get in touch</a></div>
+    <div><h2>For grown-ups</h2><a href="{% url 'library:grownups' %}">Parents & teachers</a><a href="{% url 'library:sources' %}">Sources & credits</a><a href="{% url 'library:activities' %}">Play & learn</a><a href="{% url 'about' %}">Our little story</a><a href="{% url 'faq' %}">FAQs</a><a href="{% url 'contact' %}">Get in touch</a></div>
     <div><h2>A safe little space</h2><a href="{% url 'privacy' %}">Privacy policy</a><a href="{% url 'terms' %}">Terms & conditions</a><a href="{% url 'copyright' %}">Copyright & removal</a><form action="{% url 'set_language' %}" method="post" class="interface-form">{% csrf_token %}<input name="next" type="hidden" value="{{ request.path }}"><label for="interface-language">Website language</label><div class="d-flex gap-2"><select name="language" id="interface-language" class="form-select form-select-sm"><option value="en" {% if interface_language == 'en' %}selected{% endif %}>English</option><option value="hi" {% if interface_language == 'hi' %}selected{% endif %}>हिन्दी</option><option value="mr" {% if interface_language == 'mr' %}selected{% endif %}>मराठी</option></select><button class="btn btn-small" type="submit">Go</button></div></form></div>
   </div>
   <div class="container footer-bottom"><span>© {% now 'Y' %} Little Rhymes. A little joy, every day.</span><span>No accounts. No ads. Just a little wonder.</span></div>

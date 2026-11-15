@@ -15,4 +15,4 @@ elif [ -x ../.venv/bin/python ]; then
 else
   runtime_python=python
 fi
-exec "$runtime_python" manage.py runserver "0.0.0.0:${preview_port}" --noreload
+exec "$runtime_python" manage.py runserver "0.0.0.0:${preview_port}" --noreload --nostatic
